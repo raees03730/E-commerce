@@ -32,11 +32,19 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 app.use('/images', express.static('upload/images'));
 
-// Upload endpoint
+// // Upload endpoint
+// app.post("/upload", upload.single('product'), (req, res) => {
+//   res.json({
+//     success: 1,
+//     image_url: `http://localhost:${port}/images/${req.file.filename}`  // ✅ Keep as image_url
+//   });
+// });
 app.post("/upload", upload.single('product'), (req, res) => {
+  // Render.com पर hosted backend का URL
+  const baseUrl = 'https://e-commerce-backend-qe3u.onrender.com';
   res.json({
     success: 1,
-    image_url: `http://localhost:${port}/images/${req.file.filename}`  // ✅ Keep as image_url
+    image_url: `${baseUrl}/images/${req.file.filename}`
   });
 });
 
@@ -267,6 +275,26 @@ app.post('/signup',async (req,res)=>{
     let userData = await Users.findOne({_id:req.user.id});
     res.json(userData.cartData);
   })
+
+  // ये पूरा code backend की किसी भी जगह डाल दो (app.listen से पहले)
+app.get('/fix-old-images', async (req, res) => {
+  try {
+    const products = await Product.find({});
+    let fixed = 0;
+    
+    for(let product of products) {
+      if(product.image && product.image.includes('localhost')) {
+        product.image = product.image.replace('http://localhost:4000', 'https://e-commerce-backend-qe3u.onrender.com');
+        await product.save();
+        fixed++;
+      }
+    }
+    
+    res.send(`✅ ${fixed} products fixed successfully!`);
+  } catch(error) {
+    res.send(`❌ Error: ${error.message}`);
+  }
+});
 
 
 app.listen(process.env.PORT || port, (error) => {
