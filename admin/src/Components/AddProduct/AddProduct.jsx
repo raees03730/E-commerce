@@ -34,7 +34,7 @@ const AddProduct = () => {
 
     try {
       // Upload image
-      const uploadResponse = await fetch('http://localhost:4000/upload', {
+      const uploadResponse = await fetch('https://e-commerce-backend-qe3u.onrender.comupload', {
         method: 'POST',
         body: formData,  // Removed headers
       });
@@ -52,7 +52,7 @@ const AddProduct = () => {
         console.log("Sending product to backend:", product);
         
         // Save product to database
-        const addProductResponse = await fetch('http://localhost:4000/addproduct', {
+        const addProductResponse = await fetch('https://e-commerce-backend-qe3u.onrender.com/addproduct', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
