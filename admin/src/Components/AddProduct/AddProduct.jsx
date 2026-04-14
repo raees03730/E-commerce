@@ -34,7 +34,7 @@ const AddProduct = () => {
 
     try {
       // Upload image
-      const uploadResponse = await fetch('https://e-commerce-backend-qe3u.onrender.comupload', {
+      const uploadResponse = await fetch('https://e-commerce-backend-qe3u.onrender.com/upload', {
         method: 'POST',
         body: formData,  // Removed headers
       });
