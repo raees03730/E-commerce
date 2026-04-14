@@ -284,7 +284,7 @@ app.get('/fix-old-images', async (req, res) => {
     
     for(let product of products) {
       if(product.image && product.image.includes('localhost')) {
-        product.image = product.image.replace('http://localhost:4000', 'https://e-commerce-backend-qe3u.onrender.com');
+        product.image = product.image.replace('https://e-commerce-backend-qe3u.onrender.com', 'https://e-commerce-backend-qe3u.onrender.com');
         await product.save();
         fixed++;
       }
